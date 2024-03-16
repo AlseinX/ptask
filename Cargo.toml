@@ -1,0 +1,22 @@
+[package]
+name = "ptask"
+version = "0.1.0"
+description = "Spawning parasitic tasks"
+homepage = "https://github.com/AlseinX/ptask"
+repository = "https://github.com/AlseinX/ptask"
+documentation = "https://docs.rs/ptask"
+readme = "README.md"
+keywords = ["async", "task", "spawn", "low-latency"]
+license-file = "LICENSE"
+authors = ["AlseinX <xyh951115@live.com>"]
+edition = "2021"
+
+[features]
+default = ["inlining"]
+inlining = []
+
+[dependencies]
+parking_lot = "0.12"
+
+[dev-dependencies]
+futures = "0.3"
