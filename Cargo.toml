@@ -1,6 +1,6 @@
 [package]
 name = "ptask"
-version = "0.1.0"
+version = "0.0.0"
 description = "Spawning parasitic tasks"
 homepage = "https://github.com/AlseinX/ptask"
 repository = "https://github.com/AlseinX/ptask"
