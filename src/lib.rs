@@ -4,16 +4,8 @@ extern crate alloc;
 #[cfg(test)]
 extern crate self as ptask;
 
-use core::future::Future;
-
 mod task;
-pub use task::ptask;
-
-/// Spawns a new task to run the provided future.
-#[inline(always)]
-pub fn spawn<Fut: Future<Output = ()> + Send + 'static>(task: Fut) {
-    ptask(task).wake()
-}
+pub use task::{into_waker, spawn};
 
 #[cfg(test)]
 mod tests;

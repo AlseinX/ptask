@@ -8,13 +8,24 @@ use core::{
     task::{Context, RawWaker, RawWakerVTable, Waker},
 };
 
+/// Creates a new task as a waker, wrapping the provided future.
 #[inline(always)]
-pub fn ptask<F>(f: F) -> Waker
+pub fn into_waker<F>(task: F) -> Waker
 where
     F: Future<Output = ()> + Send + 'static,
 {
-    let ptr = Arc::into_raw(Arc::new(Task::new(f))) as *const ();
+    let ptr = Arc::into_raw(Arc::new(Task::new(task))) as *const ();
     unsafe { Waker::from_raw(RawWaker::new(ptr, Task::<F>::TASK_V_TABLE)) }
+}
+
+/// Spawns a new task to run the provided future.
+#[inline(always)]
+pub fn spawn<F>(task: F)
+where
+    F: Future<Output = ()> + Send + 'static,
+{
+    let task = Arc::new(Task::new(task));
+    unsafe { Task::arc_dispatch(task.as_ref()) };
 }
 
 struct Task<F> {

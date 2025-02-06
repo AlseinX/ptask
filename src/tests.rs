@@ -42,7 +42,7 @@ fn demo() {
 
 #[test]
 fn exhaust_test() {
-    let waker = ptask::ptask(async {});
+    let waker = ptask::into_waker(async {});
     waker.wake_by_ref();
     waker.wake_by_ref();
     waker.wake();
@@ -53,7 +53,7 @@ fn race_test() {
     let lock = Arc::new(AtomicBool::new(false));
     let input = Arc::new(AtomicUsize::new(0));
     let output = Arc::new(AtomicUsize::new(0));
-    let waker = ptask::ptask({
+    let waker = ptask::into_waker({
         let lock = lock.clone();
         let input = input.clone();
         let output = output.clone();
@@ -94,7 +94,7 @@ fn race_test() {
 #[test]
 fn re_wake_test() {
     let i = Arc::new(AtomicUsize::new(0));
-    let waker = ptask::ptask(future::poll_fn({
+    let waker = ptask::into_waker(future::poll_fn({
         let i = i.clone();
         move |cx| {
             if i.fetch_add(1, Ordering::Relaxed) < 9 {
@@ -116,7 +116,7 @@ fn drop_test() {
         }
     }
     let drop = Arc::new(AtomicBool::new(false));
-    let waker = ptask::ptask({
+    let waker = ptask::into_waker({
         let drop = DropGuard(drop.clone());
         let mut i = 0;
         future::poll_fn(move |cx| {
