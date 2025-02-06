@@ -8,6 +8,7 @@ use core::{
     task::{Context, RawWaker, RawWakerVTable, Waker},
 };
 
+#[inline(always)]
 pub fn ptask<F>(f: F) -> Waker
 where
     F: Future<Output = ()> + Send + 'static,
